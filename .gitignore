@@ -1,0 +1,25 @@
+# --- Segurança e Credenciais ---
+.env
+
+# --- Dependências ---
+node_modules/
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# --- Estrutura de Pastas (Mantém a pasta, ignora os arquivos) ---
+# Ignora tudo dentro das pastas...
+test_folder/*
+backup_folder/*
+quarantine_folder/*
+
+# ...mas abre exceção para o arquivo .gitkeep
+!test_folder/.gitkeep
+!backup_folder/.gitkeep
+!quarantine_folder/.gitkeep
+
+# --- Logs e Lixo do Sistema ---
+*.log
+.DS_Store
+Thumbs.db

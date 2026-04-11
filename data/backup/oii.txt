@@ -1,0 +1,51 @@
+QUERO CAFE !!! QUERO CAFE !!!! É !!!!!!! fdjksadkjaskFile "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 213, in run
+    self.dispatch_events(self.event_queue)
+Exception in thread Thread-2:
+127.0.0.1 - - [11/Apr/2026 15:14:42] "POST /update_baseline HTTP/1.1" 200 -
+Traceback (most recent call last):
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 213, in run
+    self.dispatch_events(self.event_queue)
+127.0.0.1 - - [11/Apr/2026 15:14:42] "POST /update_baseline HTTP/1.1" 200 -
+Traceback (most recent call last):
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 213, in run
+    self.dispatch_events(self.event_queue)
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 213, in run
+    self.dispatch_events(self.event_queue)
+inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 213, in run
+    self.dispatch_events(self.event_queue)
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 213, in run
+    self.dispatch_events(self.event_queue)
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 213, in run
+    self.dispatch_events(self.event_queue)
+    self.dispatch_events(self.event_queue)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\observers\api.py", line 391, in dispatch_events
+    handler.dispatch(event)
+    ~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Julia\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\watchdog\events.py", line 217, in dispatch
+    getattr(self, f"on_{event.event_type}")(event)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\Julia\Desktop\KITA\integridade\agent\monitor.py", line 77, in on_modified
+    new_hash = generate_hash(filepath)
+  File "C:\Users\Julia\Desktop\KITA\integridade\agent\monitor.py", line 53, in generate_hash
+    with open(file_path, "rb") as f:
+         ~~~~^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '../data/monitored\\secret.txt'
+
