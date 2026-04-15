@@ -1,0 +1,2 @@
+aqui voce testa a alteracao, por padrao ela já é negada, envia uma copia para quarentena e salva uma em backup. uma notificacao vai ser enviada na saida 
+do monitor e do server. na tabela tambem vao aparecer os dados da tentativa. para aprovar é preciso entrar no client e gerar um token como admin.

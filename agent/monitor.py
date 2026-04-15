@@ -81,19 +81,19 @@ class ActiveDefenseHandler(FileSystemEventHandler):
             return
 
         quarantine_path = os.path.join(QUARANTINE_DIR, f"{int(time.time())}_{filename}")
-        # 1. Quarentena
+        # quarentena
         try:
             shutil.move(filepath, quarantine_path)
         except Exception as e:
             print(f"[ERRO] Falha ao mover: {e}")
             return
         
-        # 2. Rollback
+        # rollback
         if os.path.exists(backup_path):
             shutil.copy2(backup_path, filepath)
             print(f"[DEFESA ATIVA] Incidente contido. Arquivo '{filename}' restaurado e enviado para quarentena.")
 
-        # 3. Notifica a API Node.js
+        # notificacao
         payload = {
             "file_path": filepath,
             "new_hash": new_hash,

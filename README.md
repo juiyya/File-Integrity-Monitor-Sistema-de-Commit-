@@ -1,21 +1,31 @@
-File Integrity Monitor - Active Defense
+File Integrity Monitor - Active Defense (Sistema de Commit)
 
 Sistema de Monitoramento de Integridade de Arquivos (FIM) com recursos de Defesa Ativa.
 O sistema bloqueia alterações não autorizadas de forma imediata por meio de rollback automático, isola potenciais ameaças em quarentena e exige aprovação criptográfica de um administrador para validar qualquer modificação.
 
+Como testar:
+
+1. Clone o repositório
+2. Crie um banco de dados no SQL 
+3. Crie um usuario admin em seed.js (siga o .env.example)
+
+-rode server.js depois monitor.py
+ . Tente modificar o arquivo teste na pasta monitored
+ . aqui voce tenta a alteracao, por padrao ela já é negada, manda o arquivo para quarentena e salva uma cópia em backup . uma notificacao vai ser enviada na saida 
+do monitor e do server. na tabela do SQL tambem vao aparecer os dados da tentativa. para aprovar é preciso entrar no client (postman) e gerar um token como admin.
+
 Desenvolvimento:
     0. Banco de Dados: SQL
-    1. Agente Python: Responsável pela geração de hashes e detecção de operações de I/O
+    1. Agente Python: Responsável pela geração de hashes e detecção de operações de IO
     2. API Node.js: Responsável pela recepção de alertas e integração entre os componentes
     3. Segurança: Implementação de autenticação, autorização e rastreamento de ações
-    4. Frontend
 
 Requisitos:
 
     Node.js
     Python
     PostgreSQL
-    Thunder Client (extensão do VS Code), Postman ou Insomnia para enviar comandos de autorização.
+    Thunder Client, Postman ou Insomnia
 
     Event-Driven - npm install express pg dotenv jsonwebtoken bcrypt
     Watchdog
