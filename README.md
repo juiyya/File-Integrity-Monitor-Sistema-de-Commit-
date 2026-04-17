@@ -1,63 +1,47 @@
-File Integrity Monitor - Active Defense (Sistema de Commit)
+# File Integrity Monitor - Active Defense
 
-Sistema de Monitoramento de Integridade de Arquivos (FIM) com recursos de Defesa Ativa.
-O sistema bloqueia alterações não autorizadas de forma imediata por meio de rollback automático, isola potenciais ameaças em quarentena e exige aprovação criptográfica de um administrador para validar qualquer modificação.
+Um sistema de EDR (Endpoint Detection and Response) com arquitetura orientada a eventos. Ele monitora arquivos críticos e, se detectar alterações não autorizadas, faz o rollback automático, isola a ameaça em quarentena e exige a aprovação de um administrador para validar a modificação.
 
-Como testar:
+## Funcionalidades
 
-1. Clone o repositório
-2. Crie um banco de dados no SQL 
-3. Crie um usuario admin em seed.js (siga o .env.example)
+* **Defesa Ativa (Rollback):** Bloqueia alterações e restaura a versão original instantaneamente.
+* **Quarentena:** Isola arquivos modificados não autorizados para análise.
+* **Aprovação Criptográfica:** Nenhuma alteração passa sem um token JWT de um administrador.
+* **Trilha de Auditoria:** Registra todas as tentativas (bloqueadas ou aprovadas) no PostgreSQL.
 
--rode server.js depois monitor.py
- . Tente modificar o arquivo teste na pasta monitored
- . aqui voce tenta a alteracao, por padrao ela já é negada, manda o arquivo para quarentena e salva uma cópia em backup . uma notificacao vai ser enviada na saida 
-do monitor e do server. na tabela do SQL tambem vao aparecer os dados da tentativa. para aprovar é preciso entrar no client (postman) e gerar um token como admin.
+## Tecnologias e Arquitetura
 
-Desenvolvimento:
-    0. Banco de Dados: SQL
-    1. Agente Python: Responsável pela geração de hashes e detecção de operações de IO
-    2. API Node.js: Responsável pela recepção de alertas e integração entre os componentes
-    3. Segurança: Implementação de autenticação, autorização e rastreamento de ações
+* **Agente Local:** Python (Watchdog para monitorar I/O, Flask para escutar comandos).
+* **API Central:** Node.js (Express) para gerenciar os alertas e aprovações.
+* **Banco de Dados:** PostgreSQL (controle de concorrência e mitigação de SQL Injection).
+* **Segurança:** RBAC (Role-Based Access Control) usando JWT e bcrypt (transmissão stateless).
 
-Requisitos:
+## Como Instalar e Rodar
 
-    Node.js
-    Python
-    PostgreSQL
-    Thunder Client, Postman ou Insomnia
+**Pré-requisitos:** Node.js, Python, PostgreSQL e um client de API (Postman, Insomnia ou Thunder Client).
 
-    Event-Driven - npm install express pg dotenv jsonwebtoken bcrypt
-    Watchdog
-    Flask
+1. **Clone o repositório** e instale as dependências:
+   * Node: `npm install express pg dotenv jsonwebtoken bcrypt`
+   * Python: `pip install watchdog flask`
+2. **Configure o Banco:** Crie um banco no PostgreSQL e rode o arquivo `seed.js` (baseado no seu `.env.example`) para criar o usuário admin.
+3. **Inicie os serviços:**
+   * Em um terminal, rode a API: `node server.js`
+   * Em outro terminal, rode o agente: `python monitor.py`
 
-Padrões e Arquiteturas Utilizadas:
+## Como Simular um Ataque
 
-    EDR (Endpoint Detection and Response): Modelo de segurança que integra monitoramento contínuo com resposta automatizada, incluindo rollback e quarentena.
-    Arquitetura Orientada a Eventos (Event-Driven): O sistema reage em tempo real a eventos disparados pelo sistema operacional (ex: Watchdog).
-    Microserviços & API RESTful: Estrutura distribuída composta por uma API central de controle (Node.js) e um agente local autônomo que escuta comandos (Flask).
-    PostgreSQL: Utilizado para controle de concorrência e idempotência por meio de Upserts (ON CONFLICT).
-    Modelo relacional 1:N com uso de Foreign Keys e queries parametrizadas para mitigação de SQL Injection.
+1. Vá até a pasta `monitored` e tente alterar o arquivo de teste.
+2. **O que acontece:** O sistema bloqueia a ação, manda a alteração para a quarentena e restaura o arquivo original.
+3. Olhe os terminais do servidor e do monitor: você verá o alerta do ataque bloqueado, que também foi salvo no SQL.
 
-Segurança e Controle de Acesso: RBAC com JWT
+## Como Aprovar a Alteração (Admin)
 
-    1. Autenticação e Assinatura: Na rota de login, as credenciais fornecidas são validadas contra o hash `bcrypt` armazenado no banco de dados.
-        Caso válidas, a API emite um JSON Web Token (JWT) assinado com a chave secreta do servidor, contendo o ID do usuário e sua respectiva role (ex: admin).
+Para que a edição seja aceita, o administrador precisa assinar a operação via API.
 
-    2. Transmissão Stateless: Para execução de ações restritas, o cliente deve enviar o token no cabeçalho HTTP (`Authorization: Bearer <token>`), mantendo a API stateless e escalável.
-
-    3. Validação via Middleware: Rotas críticas são protegidas por um middleware que valida a integridade criptográfica do token, sua expiração e a role do usuário.
-        Apenas requisições autorizadas são processadas e registradas no PostgreSQL, incluindo o ID do responsável na trilha de auditoria.
-
-Como Aprovar:
-
-    Thunder Client:
-
-        Gerar token:
-        POST [http://localhost:xxxx/login](http://localhost:xxxxx/login)
-        Body (JSON): {"username": "xxxxxx", "password": "xxxxxx"}
-
-        Enviar autorização:
-        PATCH [http://localhost:xxxxx/logs/ID/authorize](http://localhost:xxxxxx/logs/ID/authorize)
-        Na aba Auth, selecionar Bearer Token e inserir o token gerado.
-
+**Passo 1: Gerar o Token JWT**
+* **Método:** `POST http://localhost:xxxx/login`
+* **Body (JSON):** ```json
+  {
+    "username": "seu_admin", 
+    "password": "sua_senha"
+  }
